@@ -37,10 +37,13 @@ $query = "SELECT * FROM messages";
 
 $rs = pg_query($con, $query) or die("Cannot execute query: $query\n");
 
+echo("<table border=2><tr><td>id</td><td>name</td><td>content</td></tr>");
 while ($row = pg_fetch_assoc($rs)) {
-    echo $row['id'] . " " . $row['name'] . " " . $row['content'];
-    echo "\n";
+    echo("<tr>");
+    echo "<td>" . $row['id'] . " " . $row['name'] . " " . $row['content']."<td>";
+    echo("</tr>\n");
 }
+echo("</table>");
 
 pg_close($con);
 

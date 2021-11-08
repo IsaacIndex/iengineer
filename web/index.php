@@ -23,4 +23,32 @@
 // });
 
 // $app->run();
-echo "testing";
+
+$host = "ec2-35-168-65-132.compute-1.amazonaws.com";
+$user = "noslwbomptkwqe";
+$password = "e3f9b5d3c98a6c537dc95742c2ba4cc92da7d47320d793973962089918693fed";
+$dbname = "d3hgn6jvibk5nu";
+$port = "5432";
+
+try{
+  //Set DSN data source name
+    $dsn = "pgsql:host=" . $host . ";port=" . $port .";dbname=" . $dbname . ";user=" . $user . ";password=" . $password . ";";
+
+
+  //create a pdo instance
+  $pdo = new PDO($dsn, $user, $password);
+  $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
+  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+echo 'Connection failed: ' . $e->getMessage();
+}
+
+$sql = 'CREATE TABLE Persons (PersonID int,LastName varchar(255),FirstName varchar(255),Address varchar(255),City varchar(255));';
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$rowCount = $stmt->rowCount();
+$details = $stmt->fetch();
+
+print_r ($details);

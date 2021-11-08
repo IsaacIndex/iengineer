@@ -52,3 +52,11 @@ $rowCount = $stmt->rowCount();
 $details = $stmt->fetch();
 
 print_r ($details);
+
+echo "<table>"; // start a table tag in the HTML
+
+while($details){   //Creates a loop to loop through results
+echo "<tr><td>" . $details['name'] . "</td><td>" . $details['content'] . "</td></tr>";  //$row['index'] the index here is a field name
+}
+
+echo "</table>"; //Close the table in HTML

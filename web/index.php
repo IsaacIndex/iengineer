@@ -30,35 +30,49 @@ $password = "e3f9b5d3c98a6c537dc95742c2ba4cc92da7d47320d793973962089918693fed";
 $dbname = "d3hgn6jvibk5nu";
 $port = "5432";
 
-try{
-  //Set DSN data source name
-    $dsn = "pgsql:host=" . $host . ";port=" . $port .";dbname=" . $dbname . ";user=" . $user . ";password=" . $password . ";";
+$con = pg_connect("host=$host dbname=$dbname user=$user password=$password port=$port")
+    or die ("Could not connect to server\n"); 
 
+$query = "SELECT * FROM messages"; 
 
-  //create a pdo instance
-  $pdo = new PDO($dsn, $user, $password);
-  $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
-  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
-echo 'Connection failed: ' . $e->getMessage();
+$rs = pg_query($con, $query) or die("Cannot execute query: $query\n");
+
+while ($row = pg_fetch_assoc($rs)) {
+    echo $row['id'] . " " . $row['name'] . " " . $row['content'];
+    echo "\n";
 }
 
-$sql = 'SELECT * FROM messages';
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$rowCount = $stmt->rowCount();
-$details = $stmt->fetch();
+pg_close($con);
 
-print_r ($details);
+// try{
+//   //Set DSN data source name
+//     $dsn = "pgsql:host=" . $host . ";port=" . $port .";dbname=" . $dbname . ";user=" . $user . ";password=" . $password . ";";
 
-echo("<table border=2><tr><td>first_name</td><td>last_name</td><td>employee_id</td></tr>");
-while ($line = pg_fetch_array($details, null, PGSQL_ASSOC)) {
-    echo("<tr>");
-    foreach ($line as $col_value => $row_value) {
-        echo("<td>$row_value</td>");
-    }
-    echo("</tr>\n");
-}
-echo("</table>");
+
+//   //create a pdo instance
+//   $pdo = new PDO($dsn, $user, $password);
+//   $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
+//   $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+//   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// }
+// catch (PDOException $e) {
+// echo 'Connection failed: ' . $e->getMessage();
+// }
+
+// $sql = 'SELECT * FROM messages';
+// $stmt = $pdo->prepare($sql);
+// $stmt->execute();
+// $rowCount = $stmt->rowCount();
+// $details = $stmt->fetch();
+
+// print_r ($details);
+
+// echo("<table border=2><tr><td>id</td><td>name</td><td>content</td></tr>");
+// while ($line = pg_fetch_array($details, null, PGSQL_ASSOC)) {
+//     echo("<tr>");
+//     foreach ($line as $col_value => $row_value) {
+//         echo("<td>$row_value</td>");
+//     }
+//     echo("</tr>\n");
+// }
+// echo("</table>");

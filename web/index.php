@@ -53,10 +53,12 @@ $details = $stmt->fetch();
 
 print_r ($details);
 
-echo "<table>"; // start a table tag in the HTML
-
-while($details){   //Creates a loop to loop through results
-echo "<tr><td>" . $details['name'] . "</td><td>" . $details['content'] . "</td></tr>";  //$row['index'] the index here is a field name
+echo("<table border=2><tr><td>first_name</td><td>last_name</td><td>employee_id</td></tr>");
+while ($line = pg_fetch_array($details, null, PGSQL_ASSOC)) {
+    echo("<tr>");
+    foreach ($line as $col_value => $row_value) {
+        echo("<td>$row_value</td>");
+    }
+    echo("</tr>\n");
 }
-
-echo "</table>"; //Close the table in HTML
+echo("</table>");

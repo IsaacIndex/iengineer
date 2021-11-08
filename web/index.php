@@ -45,7 +45,7 @@ catch (PDOException $e) {
 echo 'Connection failed: ' . $e->getMessage();
 }
 
-$sql = 'CREATE TABLE Persons (PersonID int,LastName varchar(255),FirstName varchar(255),Address varchar(255),City varchar(255));';
+$sql = 'SELECT * FROM users';
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $rowCount = $stmt->rowCount();

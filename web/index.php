@@ -45,7 +45,7 @@ catch (PDOException $e) {
 echo 'Connection failed: ' . $e->getMessage();
 }
 
-$sql = 'SELECT * FROM users';
+$sql = 'SELECT * FROM messages';
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $rowCount = $stmt->rowCount();
